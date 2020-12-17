@@ -1,6 +1,5 @@
 import json
 import requests
-from py621 import objectify
 from py621 import types
 
 # Custom user agent header for identification within e621
