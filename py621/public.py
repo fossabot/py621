@@ -11,6 +11,7 @@ def handleCodes(StatusCode):
         return
     else:
         Codes = {
+            "401": "API Key Error",
             "403": "Forbidden; Access denied",
             "404": "Not found",
             "412": "Precondition failed",
@@ -32,7 +33,12 @@ def handleCodes(StatusCode):
 class api:
     def __init__(self, url):
         self.url = url
+        self.authEnabled = False
     
+    def basicAuth(self, username, apiKey):
+        self.auth = (username, apiKey)
+        self.authEnabled = True
+
     def isTag(self, Tag):
         # Since tags can't inherently be NSFW we will always verify tags on e621
         RequestLink = self.url + "tags.json?"
@@ -40,8 +46,11 @@ class api:
         RequestLink += "search[name_matches]="
         RequestLink += Tag
 
-        # Sends the actual request
-        eRequest = requests.get(RequestLink, headers=headers)
+        # Sends the actual request with or without auth
+        if self.authEnabled:
+            eRequest = requests.get(RequestLink, headers=headers, auth=self.auth)
+        else:
+            eRequest = requests.get(RequestLink, headers=headers)
 
         # Verify status codes
         handleCodes(eRequest.status_code)
@@ -63,8 +72,11 @@ class api:
             RequestLink += "search[name_matches]="
             RequestLink += Tag
 
-            # Sends the actual request
-            eRequest = requests.get(RequestLink, headers=headers)
+            # Sends the actual request with or without auth
+            if self.authEnabled:
+                eRequest = requests.get(RequestLink, headers=headers, auth=self.auth)
+            else:
+                eRequest = requests.get(RequestLink, headers=headers)
 
             # Verify status codes
             handleCodes(eRequest.status_code)
@@ -94,8 +106,11 @@ class api:
         RequestLink += str(PostID)
         RequestLink += ".json"
     
-        # Sends the actual request
-        eRequest = requests.get(RequestLink, headers=headers)
+        # Sends the actual request with or without auth
+        if self.authEnabled:
+            eRequest = requests.get(RequestLink, headers=headers, auth=self.auth)
+        else:
+            eRequest = requests.get(RequestLink, headers=headers)
 
         # Verify status codes
         handleCodes(eRequest.status_code)
@@ -145,8 +160,11 @@ class api:
             if id != (len(Tags) - 1):
                 RequestLink += "+"
     
-        # Sends the actual request
-        eRequest = requests.get(RequestLink, headers=headers)
+        # Sends the actual request with or without auth
+        if self.authEnabled:
+            eRequest = requests.get(RequestLink, headers=headers, auth=self.auth)
+        else:
+            eRequest = requests.get(RequestLink, headers=headers)
 
         # Verify status codes
         handleCodes(eRequest.status_code)
@@ -173,8 +191,11 @@ class api:
         # Specifies the pool ID
         RequestLink += "?&search[id]=" + str(PoolID)
     
-        # Sends the actual request
-        eRequest = requests.get(RequestLink, headers=headers)
+        # Sends the actual request with or without auth
+        if self.authEnabled:
+            eRequest = requests.get(RequestLink, headers=headers, auth=self.auth)
+        else:
+            eRequest = requests.get(RequestLink, headers=headers)
 
         # Verify status codes
         handleCodes(eRequest.status_code)
