@@ -5,3 +5,4 @@
 dist/
 build/
 py621.egg-info/
+*.code-workspace
