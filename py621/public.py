@@ -3,9 +3,11 @@ import requests
 from py621 import types
 
 # Custom user agent header for identification within e621
-headers = {"User-Agent":"py621/1.2.0 (by Bugman69 on e621)"}
+headers = {"User-Agent": "py621/1.2.0 (by Bugman69 on e621)"}
 
 # HTTP Code handler
+
+
 def handleCodes(StatusCode):
     if StatusCode == 200:
         return
@@ -30,11 +32,12 @@ def handleCodes(StatusCode):
         raise ConnectionRefusedError(
             "Server connection refused! HTTP Status code: " + str(StatusCode) + " " + Codes[str(StatusCode)])
 
-class api:
+
+class apiGet:
     def __init__(self, url):
         self.url = url
         self.authEnabled = False
-    
+
     def basicAuth(self, username, apiKey):
         self.auth = (username, apiKey)
         self.authEnabled = True
@@ -48,7 +51,8 @@ class api:
 
         # Sends the actual request with or without auth
         if self.authEnabled:
-            eRequest = requests.get(RequestLink, headers=headers, auth=self.auth)
+            eRequest = requests.get(
+                RequestLink, headers=headers, auth=self.auth)
         else:
             eRequest = requests.get(RequestLink, headers=headers)
 
@@ -68,13 +72,14 @@ class api:
         except:
             # Redoing the request to check if it's an alias
             RequestLink = "https://e621.net/tag_aliases.json?"
-    
+
             RequestLink += "search[name_matches]="
             RequestLink += Tag
 
             # Sends the actual request with or without auth
             if self.authEnabled:
-                eRequest = requests.get(RequestLink, headers=headers, auth=self.auth)
+                eRequest = requests.get(
+                    RequestLink, headers=headers, auth=self.auth)
             else:
                 eRequest = requests.get(RequestLink, headers=headers)
 
@@ -99,16 +104,17 @@ class api:
     # Simple function, gets a single post
     def getPost(self, PostID):
         RequestLink = self.url
-    
+
         RequestLink += "posts/"
 
         # Specifies the Post ID
         RequestLink += str(PostID)
         RequestLink += ".json"
-    
+
         # Sends the actual request with or without auth
         if self.authEnabled:
-            eRequest = requests.get(RequestLink, headers=headers, auth=self.auth)
+            eRequest = requests.get(
+                RequestLink, headers=headers, auth=self.auth)
         else:
             eRequest = requests.get(RequestLink, headers=headers)
 
@@ -124,7 +130,7 @@ class api:
     # Simple function, returns a list with posts
     def getPosts(self, Tags, Limit, Page, Check):
         RequestLink = self.url
-    
+
         RequestLink += "posts.json?"
 
         # Gives a limit of posts to the api (can be used for per page limits when combined with Page)
@@ -134,7 +140,6 @@ class api:
         # Specifies the page
         RequestLink += "&page="
         RequestLink += str(Page)
-
 
         # Handles tag formation
         RequestLink += "&tags="
@@ -156,13 +161,14 @@ class api:
             else:
                 # Don't bother with tag checks
                 RequestLink += Tag
-        
+
             if id != (len(Tags) - 1):
                 RequestLink += "+"
-    
+
         # Sends the actual request with or without auth
         if self.authEnabled:
-            eRequest = requests.get(RequestLink, headers=headers, auth=self.auth)
+            eRequest = requests.get(
+                RequestLink, headers=headers, auth=self.auth)
         else:
             eRequest = requests.get(RequestLink, headers=headers)
 
@@ -177,7 +183,7 @@ class api:
 
         # For every post on json output convert to Post object and append to list
         for post in eJSON["posts"]:
-           Posts.append(types.ListToPost(post, self))
+            Posts.append(types.ListToPost(post, self))
 
         # Return posts from the previously defined list of Post objects
         return Posts
@@ -185,15 +191,16 @@ class api:
     # Simple function, returns a pool from a pool ID
     def getPool(self, PoolID):
         RequestLink = self.url
-    
+
         RequestLink += "pools.json?"
 
         # Specifies the pool ID
         RequestLink += "?&search[id]=" + str(PoolID)
-    
+
         # Sends the actual request with or without auth
         if self.authEnabled:
-            eRequest = requests.get(RequestLink, headers=headers, auth=self.auth)
+            eRequest = requests.get(
+                RequestLink, headers=headers, auth=self.auth)
         else:
             eRequest = requests.get(RequestLink, headers=headers)
 
@@ -217,6 +224,6 @@ class api:
         for postID in poolPosts:
             # For every post id, get a post and append it to the posts list
             posts.append(self.getPost(postID))
-    
+
         # Return the posts list
         return posts

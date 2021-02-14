@@ -3,30 +3,39 @@ from datetime import datetime, timezone
 e621 = "https://e621.net/"
 e926 = "https://e926.net/"
 
+
 class File:
     pass
+
 
 class Preview:
     pass
 
+
 class Sample:
     pass
+
 
 class Score:
     pass
 
+
 class Tags:
     pass
+
 
 class Flags:
     pass
 
+
 class Relationships:
     pass
+
 
 class Post:
     def __init__(self, api):
         self.api = api
+
 
 class Pool:
     def __init__(self, api):
@@ -35,13 +44,16 @@ class Pool:
     def getPosts(self):
         return self.api.getPoolPosts(self.id)
 
+
 def ListToPost(List, api):
     ThisPost = Post(api)
 
     # Commence the manual hell of a list to object
     ThisPost.id = List["id"]
-    ThisPost.created_at = datetime.strptime(List["created_at"], "%Y-%m-%dT%H:%M:%S.%f%z")
-    ThisPost.updated_at = datetime.strptime(List["updated_at"], "%Y-%m-%dT%H:%M:%S.%f%z")
+    ThisPost.created_at = datetime.strptime(
+        List["created_at"], "%Y-%m-%dT%H:%M:%S.%f%z")
+    ThisPost.updated_at = datetime.strptime(
+        List["updated_at"], "%Y-%m-%dT%H:%M:%S.%f%z")
 
     ThisPost.file = File()
     ThisPost.file.width = List["file"]["width"]
@@ -105,13 +117,16 @@ def ListToPost(List, api):
 
     return ThisPost
 
+
 def ListToPool(List, api):
     ThisPool = Pool(api)
 
     ThisPool.id = List["id"]
     ThisPool.name = List["name"]
-    ThisPool.created_at = datetime.strptime(List["created_at"], "%Y-%m-%dT%H:%M:%S.%f%z")
-    ThisPool.updated_at = datetime.strptime(List["updated_at"], "%Y-%m-%dT%H:%M:%S.%f%z")
+    ThisPool.created_at = datetime.strptime(
+        List["created_at"], "%Y-%m-%dT%H:%M:%S.%f%z")
+    ThisPool.updated_at = datetime.strptime(
+        List["updated_at"], "%Y-%m-%dT%H:%M:%S.%f%z")
     ThisPool.creator_id = List["creator_id"]
     ThisPool.description = List["description"]
     ThisPool.is_active = List["is_active"]
