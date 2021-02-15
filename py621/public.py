@@ -34,7 +34,7 @@ def handleCodes(StatusCode):
                 "Server connection refused! HTTP Status code: " + str(StatusCode) + " " + Codes[str(StatusCode)])
         except KeyError: # This shouldn't happen but if it does this is here just in case
             raise ConnectionRefusedError(
-                "Server connection refused! HTTP Status code: " + str(StatusCode) + " Unknown status code, contact the devs and give them the unknown status code")
+                "Server connection refused! HTTP Status code: " + str(StatusCode) + " Unknown status code")
 
 class apiGet:
     def __init__(self, url):
