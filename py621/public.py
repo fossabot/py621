@@ -29,9 +29,12 @@ def handleCodes(StatusCode):
             "522": "Origin Connection Time-out; CloudFlare's attempt to connect to the e621 servers timed out",
             "524": "Origin Connection Time-out; A connection was established between CloudFlare and the e621 servers, but it timed out before an HTTP response was received",
             "525": "SSL Handshake Failed; The SSL handshake between CloudFlare and the e621 servers failed"}
-        raise ConnectionRefusedError(
-            "Server connection refused! HTTP Status code: " + str(StatusCode) + " " + Codes[str(StatusCode)])
-
+        try:
+            raise ConnectionRefusedError(
+                "Server connection refused! HTTP Status code: " + str(StatusCode) + " " + Codes[str(StatusCode)])
+        except KeyError: # This shouldn't happen but if it does this is here just in case
+            raise ConnectionRefusedError(
+                "Server connection refused! HTTP Status code: " + str(StatusCode) + " Unknown status code, contact the devs and give them the unknown status code")
 
 class apiGet:
     def __init__(self, url):
