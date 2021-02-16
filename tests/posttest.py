@@ -1,9 +1,9 @@
 import py621
 
-# Create a safe api instance
+# Create an safe api instance
 api = py621.public.apiGet(py621.types.e926)
 
-# Optionally auth using username and api key
+# Optional auth using username and api key
 # api.basicAuth("Username", "User API Key")
 
 # Set the tags we want
