@@ -40,9 +40,10 @@ def handleCodes(StatusCode):
         try:
             raise ConnectionRefusedError(
                 "Server connection refused! HTTP Status code: " + str(StatusCode) + " " + Codes[str(StatusCode)])
-        except KeyError: # This shouldn't happen but if it does this is here just in case
+        except KeyError:  # This shouldn't happen but if it does this is here just in case
             raise ConnectionRefusedError(
                 "Server connection refused! HTTP Status code: " + str(StatusCode) + " Unknown status code")
+
 
 class apiGet:
     """[Used for searching posts, searching flags, and searching notes]
@@ -50,7 +51,7 @@ class apiGet:
     Args:
         url ([str]): [Uses either py621.types.e926 or py621.types.e621 only]
     """
-    
+
     def __init__(self, url):
         self.url = url
         self.authEnabled = False
@@ -61,7 +62,7 @@ class apiGet:
         Args:
             username ([str]): [Username of the user]
             apiKey ([str]): [The API requires that API access be enabled on the account before it can log in using the API. To enable API access, you must go to your profile page (Account > My profile) and generate an API key.]
-        """        
+        """
         self.auth = (username, apiKey)
         self.authEnabled = True
 
@@ -73,7 +74,7 @@ class apiGet:
 
         Returns:
             [bool/str]: [Returns True if the tag is valid, False if it isn't, and returns a string if the tag is an alias]
-        """        
+        """
         # Since tags can't inherently be NSFW we will always verify tags on e621
         RequestLink = self.url + "tags.json?"
 
@@ -141,7 +142,7 @@ class apiGet:
 
         Returns:
             [obj]: [Returns objects as shown in types.ListToPost]
-        """        
+        """
         RequestLink = self.url
 
         RequestLink += "posts/"
@@ -181,7 +182,7 @@ class apiGet:
 
         Returns:
             [list]: [List of post IDs]
-        """        
+        """
         RequestLink = self.url
 
         RequestLink += "posts.json?"
@@ -250,7 +251,7 @@ class apiGet:
 
         Returns:
             [obj]: [Returns objects as shown in types.ListToPool]
-        """        
+        """
         RequestLink = self.url
 
         RequestLink += "pools.json?"
@@ -283,7 +284,7 @@ class apiGet:
 
         Returns:
             [list]: [List of post IDs for the posts in the pool]
-        """        
+        """
         # Get ID of all posts in a pool
         poolPosts = self.getPool(PoolID).post_ids
 
@@ -297,6 +298,7 @@ class apiGet:
         # Return the posts list
         return posts
 
+
 class apiPost:
     """[Used for uploading posts, creating a new flag, voting on post, creating a note, or creating a new pool]
 
@@ -304,6 +306,6 @@ class apiPost:
         username ([str]): [Username of the user]
         apiKey ([str]): [The API requires that API access be enabled on the account before it can log in using the API. To enable API access, you must go to your profile page (Account > My profile) and generate an API key.]
     """
-    
+
     def __init__(self, username, apiKey):
-        self.auth=(username, apiKey)
+        self.auth = (username, apiKey)
