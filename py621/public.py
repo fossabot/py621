@@ -1,4 +1,3 @@
-import json
 import requests
 from py621 import types
 
@@ -69,7 +68,7 @@ class apiGet:
         self.auth = (username, apiKey)
         self.authEnabled = True
 
-    def isTag(self, Tag): # ! This currently returns false if something like "order:score" (a proper search term) is passed 
+    def isTag(self, Tag): # ! This currently returns false if something like "order:score" (a proper search term) is passed
         """
         [Checks if a tag is valid]
 
