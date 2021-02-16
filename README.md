@@ -20,7 +20,7 @@ A simple, easy to use, e621 API interface for Python!
 
 ## Contributors
 
-* [Hunter The Protogen](https://github.com/Hunter-The-Furry)
+- [Hunter The Protogen](https://github.com/Hunter-The-Furry)
 
 ## License
 
