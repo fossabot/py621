@@ -9,6 +9,14 @@ headers = {"User-Agent": "py621/1.2.0 (by Bugman69 on e621)"}
 
 
 def handleCodes(StatusCode):
+    """[Handles status codes]
+
+    Args:
+        StatusCode ([int]): [Status code provided by the server]
+
+    Raises:
+        ConnectionRefusedError: [Raised when anything but a status code of 200 is given]
+    """
     if StatusCode == 200:
         return
     else:
@@ -37,15 +45,35 @@ def handleCodes(StatusCode):
                 "Server connection refused! HTTP Status code: " + str(StatusCode) + " Unknown status code")
 
 class apiGet:
+    """[Used for searching posts, searching flags, and searching notes]
+
+    Args:
+        url ([str]): [Uses either py621.types.e926 or py621.types.e621 only]
+    """
+    
     def __init__(self, url):
         self.url = url
         self.authEnabled = False
 
     def basicAuth(self, username, apiKey):
+        """[Enables the basic auth]
+
+        Args:
+            username ([str]): [Username of the user]
+            apiKey ([str]): [The API requires that API access be enabled on the account before it can log in using the API. To enable API access, you must go to your profile page (Account > My profile) and generate an API key.]
+        """        
         self.auth = (username, apiKey)
         self.authEnabled = True
 
     def isTag(self, Tag):
+        """[Checks if a tag is valid]
+
+        Args:
+            Tag ([str]): [Tag to be checked]
+
+        Returns:
+            [bool/str]: [Returns True if the tag is valid, False if it isn't, and returns a string if the tag is an alias]
+        """        
         # Since tags can't inherently be NSFW we will always verify tags on e621
         RequestLink = self.url + "tags.json?"
 
@@ -106,6 +134,14 @@ class apiGet:
 
     # Simple function, gets a single post
     def getPost(self, PostID):
+        """[Gets the information about a post]
+
+        Args:
+            PostID ([int/str]): [The ID of the post to get info about]
+
+        Returns:
+            [obj]: [Returns objects as shown in types.ListToPost]
+        """        
         RequestLink = self.url
 
         RequestLink += "posts/"
@@ -132,6 +168,20 @@ class apiGet:
 
     # Simple function, returns a list with posts
     def getPosts(self, Tags, Limit, Page, Check):
+        """[Searches posts]
+
+        Args:
+            Tags ([list]): [list of tags to use]
+            Limit ([int]): [Number of posts to return, not guaranteed to return this exact number of posts. Hard limit of 320 imposed by the site]
+            Page ([int]): [Page number to start the search from]
+            Check ([bool]): [Whether or not to check the tags for validity]
+
+        Raises:
+            NameError: [Raised when a provided tag is found to not exist during tag checking]
+
+        Returns:
+            [list]: [List of post IDs]
+        """        
         RequestLink = self.url
 
         RequestLink += "posts.json?"
@@ -193,6 +243,14 @@ class apiGet:
 
     # Simple function, returns a pool from a pool ID
     def getPool(self, PoolID):
+        """[Get information about a pool]
+
+        Args:
+            PoolID ([str/int]): [The ID of the pool to get info about]
+
+        Returns:
+            [obj]: [Returns objects as shown in types.ListToPool]
+        """        
         RequestLink = self.url
 
         RequestLink += "pools.json?"
@@ -218,6 +276,14 @@ class apiGet:
 
     # Simple function, returns a list of posts from a specific pool ID
     def getPoolPosts(self, PoolID):
+        """[Gets IDs of posts in a pool]
+
+        Args:
+            PoolID ([str/int]): [The ID of the pool to get the posts from]
+
+        Returns:
+            [list]: [List of post IDs for the posts in the pool]
+        """        
         # Get ID of all posts in a pool
         poolPosts = self.getPool(PoolID).post_ids
 
@@ -230,3 +296,14 @@ class apiGet:
 
         # Return the posts list
         return posts
+
+class apiPost:
+    """[Used for uploading posts, creating a new flag, voting on post, creating a note, or creating a new pool]
+
+    Args:
+        username ([str]): [Username of the user]
+        apiKey ([str]): [The API requires that API access be enabled on the account before it can log in using the API. To enable API access, you must go to your profile page (Account > My profile) and generate an API key.]
+    """
+    
+    def __init__(self, username, apiKey):
+        self.auth=(username, apiKey)
