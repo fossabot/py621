@@ -9,7 +9,8 @@ headers = {"User-Agent": "py621/1.2.0 (by Bugman69 on e621)"}
 
 
 def handleCodes(StatusCode):
-    """[Handles status codes]
+    """
+    [Handles status codes]
 
     Args:
         StatusCode ([int]): [Status code provided by the server]
@@ -46,7 +47,8 @@ def handleCodes(StatusCode):
 
 
 class apiGet:
-    """[Used for searching posts, searching flags, and searching notes]
+    """
+    [Used for searching posts, searching flags, and searching notes]
 
     Args:
         url ([str]): [Uses either py621.types.e926 or py621.types.e621 only]
@@ -57,7 +59,8 @@ class apiGet:
         self.authEnabled = False
 
     def basicAuth(self, username, apiKey):
-        """[Enables the basic auth]
+        """
+        [Enables the basic auth]
 
         Args:
             username ([str]): [Username of the user]
@@ -66,8 +69,9 @@ class apiGet:
         self.auth = (username, apiKey)
         self.authEnabled = True
 
-    def isTag(self, Tag):
-        """[Checks if a tag is valid]
+    def isTag(self, Tag): # ! This currently returns false if something like "order:score" (a proper search term) is passed 
+        """
+        [Checks if a tag is valid]
 
         Args:
             Tag ([str]): [Tag to be checked]
@@ -135,7 +139,8 @@ class apiGet:
 
     # Simple function, gets a single post
     def getPost(self, PostID):
-        """[Gets the information about a post]
+        """
+        [Gets the information about a post]
 
         Args:
             PostID ([int/str]): [The ID of the post to get info about]
@@ -169,7 +174,8 @@ class apiGet:
 
     # Simple function, returns a list with posts
     def getPosts(self, Tags, Limit, Page, Check):
-        """[Searches posts]
+        """
+        [Searches posts]
 
         Args:
             Tags ([list]): [list of tags to use]
@@ -244,7 +250,8 @@ class apiGet:
 
     # Simple function, returns a pool from a pool ID
     def getPool(self, PoolID):
-        """[Get information about a pool]
+        """
+        [Get information about a pool]
 
         Args:
             PoolID ([str/int]): [The ID of the pool to get info about]
@@ -277,7 +284,8 @@ class apiGet:
 
     # Simple function, returns a list of posts from a specific pool ID
     def getPoolPosts(self, PoolID):
-        """[Gets IDs of posts in a pool]
+        """
+        [Gets IDs of posts in a pool]
 
         Args:
             PoolID ([str/int]): [The ID of the pool to get the posts from]
@@ -300,7 +308,8 @@ class apiGet:
 
 
 class apiPost:
-    """[Used for uploading posts, creating a new flag, voting on post, creating a note, or creating a new pool]
+    """
+    [Used for uploading posts, creating a new flag, voting on post, creating a note, or creating a new pool]
 
     Args:
         username ([str]): [Username of the user]
