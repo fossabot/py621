@@ -25,7 +25,7 @@ def handleCodes(StatusCode):
 
     Args:
         StatusCode ([int]): [Status code provided by the server]
-    
+
     Raises:
         ConnectionRefusedError: [Raised when anything but a status code of 200 is given]
     """
@@ -57,6 +57,7 @@ def handleCodes(StatusCode):
             raise ConnectionRefusedError(
                 "Server connection refused! HTTP Status code: " + str(StatusCode) + " Unknown status code")
 
+
 class api:
     """[An API Instance]
 
@@ -65,7 +66,8 @@ class api:
         username ([str], optional): [If authenticating, set this to your e621 username]
         APIKey ([str], optional): [If authenticating, set this your e621 API key]
     """
-    def __init__(self, url, username = None, APIKey = None):
+
+    def __init__(self, url, username=None, APIKey=None):
         self.url = url
 
         if APIKey != None:
@@ -73,13 +75,13 @@ class api:
             self.auth = (username, APIKey)
         else:
             self.authenticate = False
-    
+
     def isTag(self, Tag):
         """[Checks if a tag is valid]
 
         Args:
             Tag ([str]): [Tag to be checked]
-        
+
         Returns:
             [bool/str]: [Returns True if the tag is valid, False if it isn't, and returns a string if the tag is an alias]
         """
@@ -92,7 +94,8 @@ class api:
 
         # Sends the actual request
         if self.authenticate == True:
-            eRequest = requests.get(RequestLink, headers=headers, auth=self.auth)
+            eRequest = requests.get(
+                RequestLink, headers=headers, auth=self.auth)
         else:
             eRequest = requests.get(RequestLink, headers=headers)
 
@@ -118,7 +121,8 @@ class api:
 
             # Sends the actual request
             if self.authenticate == True:
-                eRequest = requests.get(RequestLink, headers=headers, auth=self.auth)
+                eRequest = requests.get(
+                    RequestLink, headers=headers, auth=self.auth)
             else:
                 eRequest = requests.get(RequestLink, headers=headers)
 
@@ -146,7 +150,7 @@ class api:
 
         Args:
             PostID ([int/str]): [The ID of the post to get info about]
-        
+
         Returns:
             [Post]: [Returns a Post object]
         """
@@ -158,10 +162,11 @@ class api:
         # Specifies the Post ID
         RequestLink += str(PostID)
         RequestLink += ".json"
-    
+
         # Sends the actual request
         if self.authenticate == True:
-            eRequest = requests.get(RequestLink, headers=headers, auth=self.auth)
+            eRequest = requests.get(
+                RequestLink, headers=headers, auth=self.auth)
         else:
             eRequest = requests.get(RequestLink, headers=headers)
 
@@ -190,11 +195,11 @@ class api:
             Limit ([int]): [Number of posts to return, not guaranteed to return this exact number of posts. Hard limit of 320 imposed by the site]
             Page ([int]): [Page number to start the search from]
             Check ([bool]): [Whether or not to check the tags for validity]
-        
+
         Returns:
             [List[Post]]: [Returns a list of Post objects]
         """
-        
+
         RequestLink = self.url
 
         RequestLink += "posts.json?"
@@ -230,10 +235,11 @@ class api:
 
             if id != (len(Tags) - 1):
                 RequestLink += "+"
-    
+
         # Sends the actual request
         if self.authenticate == True:
-            eRequest = requests.get(RequestLink, headers=headers, auth=self.auth)
+            eRequest = requests.get(
+                RequestLink, headers=headers, auth=self.auth)
         else:
             eRequest = requests.get(RequestLink, headers=headers)
 
@@ -266,7 +272,7 @@ class api:
 
         Args:
             PoolID ([str/int]): [The ID of the pool to get]
-        
+
         Returns:
             [Pool]: [Returns a Pool object]
         """
@@ -277,10 +283,11 @@ class api:
 
         # Specifies the pool ID
         RequestLink += "?&search[id]=" + str(PoolID)
-    
+
         # Sends the actual request
         if self.authenticate == True:
-            eRequest = requests.get(RequestLink, headers=headers, auth=self.auth)
+            eRequest = requests.get(
+                RequestLink, headers=headers, auth=self.auth)
         else:
             eRequest = requests.get(RequestLink, headers=headers)
 
@@ -306,7 +313,7 @@ class api:
 
         Args:
             PoolID ([str/int]): [The ID of the pool to get the posts from]
-        
+
         Returns:
             [List]: [List of Post objects]
         """
@@ -337,7 +344,7 @@ class apiPost:
     def __init__(self, username, apiKey):
         self.auth = (username, apiKey)
 
-    def createPost(self, file, tags, rating, directURL=None, source=None, description=None, parentID=None, referrerURL=None, asPending=None):
+    def createPost(self, file, tags, rating, directURL=None, source=None, description=None, parentID=None, referrerURL=None, asPending=None):  # ! UNFINISHED
         PostLink = "https://e621.net/uploads.json"
         md5 = genmd5(file)
         params = {
