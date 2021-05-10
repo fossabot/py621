@@ -8,15 +8,15 @@ headers = {"User-Agent": "py621/1.2.0 (by Bugman69 on e621)"}
 
 
 def handleCodes(StatusCode):
-    """
-    [Handles status codes]
+    """[Handles HTTP Status Codes]
 
     Args:
         StatusCode ([int]): [Status code provided by the server]
-
+    
     Raises:
         ConnectionRefusedError: [Raised when anything but a status code of 200 is given]
     """
+
     if StatusCode == 200:
         return
     else:
@@ -44,50 +44,42 @@ def handleCodes(StatusCode):
             raise ConnectionRefusedError(
                 "Server connection refused! HTTP Status code: " + str(StatusCode) + " Unknown status code")
 
-
-class apiGet:
-    """
-    [Used for searching posts, searching flags, and searching notes]
+class api:
+    """[An API Instance]
 
     Args:
-        url ([str]): [Uses either py621.types.e926 or py621.types.e621 only]
+        url ([str]): [Uses either py621.types.e926 or py621.types.e621]
+        username ([str], optional): [If authenticating, set this to your e621 username]
+        APIKey ([str], optional): [If authenticating, set this your e621 API key]
     """
-
-    def __init__(self, url):
+    def __init__(self, url, username = None, APIKey = None):
         self.url = url
-        self.authEnabled = False
 
-    def basicAuth(self, username, apiKey):
-        """
-        [Enables the basic auth]
-
-        Args:
-            username ([str]): [Username of the user]
-            apiKey ([str]): [The API requires that API access be enabled on the account before it can log in using the API. To enable API access, you must go to your profile page (Account > My profile) and generate an API key.]
-        """
-        self.auth = (username, apiKey)
-        self.authEnabled = True
-
-    def isTag(self, Tag): # ! This currently returns false if something like "order:score" (a proper search term) is passed
-        """
-        [Checks if a tag is valid]
+        if APIKey != None:
+            self.authenticate = True
+            self.auth = (username, APIKey)
+        else:
+            self.authenticate = False
+    
+    def isTag(self, Tag):
+        """[Checks if a tag is valid]
 
         Args:
             Tag ([str]): [Tag to be checked]
-
+        
         Returns:
             [bool/str]: [Returns True if the tag is valid, False if it isn't, and returns a string if the tag is an alias]
         """
+
         # Since tags can't inherently be NSFW we will always verify tags on e621
         RequestLink = self.url + "tags.json?"
 
         RequestLink += "search[name_matches]="
         RequestLink += Tag
 
-        # Sends the actual request with or without auth
-        if self.authEnabled:
-            eRequest = requests.get(
-                RequestLink, headers=headers, auth=self.auth)
+        # Sends the actual request
+        if self.authenticate == True:
+            eRequest = requests.get(RequestLink, headers=headers, auth=self.auth)
         else:
             eRequest = requests.get(RequestLink, headers=headers)
 
@@ -111,10 +103,9 @@ class apiGet:
             RequestLink += "search[name_matches]="
             RequestLink += Tag
 
-            # Sends the actual request with or without auth
-            if self.authEnabled:
-                eRequest = requests.get(
-                    RequestLink, headers=headers, auth=self.auth)
+            # Sends the actual request
+            if self.authenticate == True:
+                eRequest = requests.get(RequestLink, headers=headers, auth=self.auth)
             else:
                 eRequest = requests.get(RequestLink, headers=headers)
 
@@ -138,15 +129,15 @@ class apiGet:
 
     # Simple function, gets a single post
     def getPost(self, PostID):
-        """
-        [Gets the information about a post]
+        """[Gets a post by it's ID]
 
         Args:
             PostID ([int/str]): [The ID of the post to get info about]
-
+        
         Returns:
-            [obj]: [Returns objects as shown in types.ListToPost]
+            [Post]: [Returns a Post object]
         """
+
         RequestLink = self.url
 
         RequestLink += "posts/"
@@ -154,6 +145,12 @@ class apiGet:
         # Specifies the Post ID
         RequestLink += str(PostID)
         RequestLink += ".json"
+    
+        # Sends the actual request
+        if self.authenticate == True:
+            eRequest = requests.get(RequestLink, headers=headers, auth=self.auth)
+        else:
+            eRequest = requests.get(RequestLink, headers=headers)
 
         # Sends the actual request with or without auth
         if self.authEnabled:
@@ -173,21 +170,18 @@ class apiGet:
 
     # Simple function, returns a list with posts
     def getPosts(self, Tags, Limit, Page, Check):
-        """
-        [Searches posts]
+        """[Get a list of posts]
 
         Args:
-            Tags ([list]): [list of tags to use]
+            Tags ([list]): [List of tags to use]
             Limit ([int]): [Number of posts to return, not guaranteed to return this exact number of posts. Hard limit of 320 imposed by the site]
             Page ([int]): [Page number to start the search from]
             Check ([bool]): [Whether or not to check the tags for validity]
-
-        Raises:
-            NameError: [Raised when a provided tag is found to not exist during tag checking]
-
+        
         Returns:
-            [list]: [List of post IDs]
+            [List[Post]]: [Returns a list of Post objects]
         """
+        
         RequestLink = self.url
 
         RequestLink += "posts.json?"
@@ -209,7 +203,7 @@ class apiGet:
                 TagCheck = self.isTag(Tag)
 
                 if TagCheck == False:
-                    # Tag does not exist, throw an error, this can help devs latter on
+                    # Tag does not exist, throw an error, this can help devs later on
                     raise NameError("Tag (" + Tag + ") does not exist!")
                 elif TagCheck == True:
                     # Tag exists and isn't an alias, put it on the request
@@ -223,6 +217,12 @@ class apiGet:
 
             if id != (len(Tags) - 1):
                 RequestLink += "+"
+    
+        # Sends the actual request
+        if self.authenticate == True:
+            eRequest = requests.get(RequestLink, headers=headers, auth=self.auth)
+        else:
+            eRequest = requests.get(RequestLink, headers=headers)
 
         # Sends the actual request with or without auth
         if self.authEnabled:
@@ -249,21 +249,27 @@ class apiGet:
 
     # Simple function, returns a pool from a pool ID
     def getPool(self, PoolID):
-        """
-        [Get information about a pool]
+        """[Gets a Pool by its ID]
 
         Args:
-            PoolID ([str/int]): [The ID of the pool to get info about]
-
+            PoolID ([str/int]): [The ID of the pool to get]
+        
         Returns:
-            [obj]: [Returns objects as shown in types.ListToPool]
+            [Pool]: [Returns a Pool object]
         """
+
         RequestLink = self.url
 
         RequestLink += "pools.json?"
 
         # Specifies the pool ID
         RequestLink += "?&search[id]=" + str(PoolID)
+    
+        # Sends the actual request
+        if self.authenticate == True:
+            eRequest = requests.get(RequestLink, headers=headers, auth=self.auth)
+        else:
+            eRequest = requests.get(RequestLink, headers=headers)
 
         # Sends the actual request with or without auth
         if self.authEnabled:
@@ -283,15 +289,15 @@ class apiGet:
 
     # Simple function, returns a list of posts from a specific pool ID
     def getPoolPosts(self, PoolID):
-        """
-        [Gets IDs of posts in a pool]
+        """[Gets IDs of posts in a pool]
 
         Args:
             PoolID ([str/int]): [The ID of the pool to get the posts from]
-
+        
         Returns:
-            [list]: [List of post IDs for the posts in the pool]
+            [List]: [List of Post objects]
         """
+
         # Get ID of all posts in a pool
         poolPosts = self.getPool(PoolID).post_ids
 
