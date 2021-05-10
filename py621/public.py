@@ -1,8 +1,21 @@
+# This file should probably be renamed since it now contains both public and private api calls, not sure what to name it though
 import requests
 from py621 import types
+import hashlib
+import json
+import re
 
 # Custom user agent header for identification within e621
 headers = {"User-Agent": "py621/1.2.0 (by Bugman69 on e621)"}
+
+
+def genmd5(file):
+    hash_md5 = hashlib.md5()
+    with open(file, "rb") as f:
+        for chunk in iter(lambda: f.read(4096), b""):
+            hash_md5.update(chunk)
+    return hash_md5.hexdigest()
+
 
 # HTTP Code handler
 
@@ -86,7 +99,7 @@ class api:
         # Verify status codes
         handleCodes(eRequest.status_code)
 
-        # Decodes the json into a a list
+        # Decodes the json into a list
         eJSON = eRequest.json()
 
         try:
@@ -323,3 +336,25 @@ class apiPost:
 
     def __init__(self, username, apiKey):
         self.auth = (username, apiKey)
+
+    def createPost(self, file, tags, rating, directURL=None, source=None, description=None, parentID=None, referrerURL=None, asPending=None):
+        PostLink = "https://e621.net/uploads.json"
+        md5 = genmd5(file)
+        params = {
+            "upload[tag_string]": tags,
+            "upload[rating]": rating,
+            "upload[direct_url]": directURL,
+            "upload[source]": source,
+            "upload[description]": description,
+            "upload[parent_id]": parentID,
+            "upload[referer_url]": referrerURL,
+            "upload[md5_confirmation]": md5,
+            "upload[as_pending]": asPending
+        }
+        params = json.dumps(params)
+        uploadFile = {'upload[file]': open(file, 'rb')}
+        requestPost = requests.post(
+            url=PostLink, files=uploadFile, json=params, headers=headers, auth=self.auth)
+        handleCodes(requestPost.status_code)
+        return requestPost
+        #  Will return {"success":true", ”location":"/posts/<Post_ID>", "post_id":<Post_ID>} when successful or {"success": false, "reason": "duplicate", "location": "/posts/<Post_ID>", "post_id": < Post_ID >} when it fails (in this example it failed because the post was a duplicate)
