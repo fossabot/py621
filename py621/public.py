@@ -84,7 +84,7 @@ class api:
         else:
             self.authenticate = False
 
-    def isTag(self, Tag):
+    def isTag(self, Tag):  # ! This currently returns false if something like "order:score" (a proper search term) is passed (Use Regex re.search https://www.guru99.com/python-regular-expressions-complete-tutorial.html https://duckduckgo.com/?q=python+regular+expression+multiple+paterns&t=newext&atb=v267-1&ia=web)
         """[Checks if a tag is valid]
 
         Args:
