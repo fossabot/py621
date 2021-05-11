@@ -66,7 +66,7 @@ def handleCodes(StatusCode):
                 "Server connection refused! HTTP Status code: " + str(StatusCode) + " Unknown status code")
 
 
-class api:
+class apiGet:
     """[An API Instance]
 
     Args:
@@ -178,13 +178,6 @@ class api:
         else:
             eRequest = requests.get(RequestLink, headers=headers)
 
-        # Sends the actual request with or without auth
-        if self.authEnabled:
-            eRequest = requests.get(
-                RequestLink, headers=headers, auth=self.auth)
-        else:
-            eRequest = requests.get(RequestLink, headers=headers)
-
         # Verify status codes
         handleCodes(eRequest.status_code)
 
@@ -251,13 +244,6 @@ class api:
         else:
             eRequest = requests.get(RequestLink, headers=headers)
 
-        # Sends the actual request with or without auth
-        if self.authEnabled:
-            eRequest = requests.get(
-                RequestLink, headers=headers, auth=self.auth)
-        else:
-            eRequest = requests.get(RequestLink, headers=headers)
-
         # Verify status codes
         handleCodes(eRequest.status_code)
 
@@ -294,13 +280,6 @@ class api:
 
         # Sends the actual request
         if self.authenticate == True:
-            eRequest = requests.get(
-                RequestLink, headers=headers, auth=self.auth)
-        else:
-            eRequest = requests.get(RequestLink, headers=headers)
-
-        # Sends the actual request with or without auth
-        if self.authEnabled:
             eRequest = requests.get(
                 RequestLink, headers=headers, auth=self.auth)
         else:
