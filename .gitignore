@@ -149,12 +149,6 @@ Thumbs.db
 # profiling data
 .prof
 
-
-# End of https://www.toptal.com/developers/gitignore/api/python
-
-# Created by https://www.toptal.com/developers/gitignore/api/vscode
-# Edit at https://www.toptal.com/developers/gitignore?templates=vscode
-
 ### vscode ###
 .vscode*
 !.vscode/settings.json
@@ -163,6 +157,20 @@ Thumbs.db
 !.vscode/extensions.json
 *.code-workspace
 
-# End of https://www.toptal.com/developers/gitignore/api/vscode
+### Linux ###
+*~
 
+# temporary files which can be created if a process still has a handle open of a deleted file
+.fuse_hidden*
+
+# KDE directory preferences
+.directory
+
+# Linux trash folder which might appear on any partition or disk
+.Trash-*
 .empty
+
+# .nfs files are created when an open file is removed but is still being accessed
+.nfs*
+
+# End of https://www.toptal.com/developers/gitignore/api/linux
