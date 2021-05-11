@@ -10,6 +10,14 @@ headers = {"User-Agent": "py621/1.2.0 (by Bugman69 on e621)"}
 
 
 def genmd5(file):
+    """[Calculates md5 value for a file]
+
+    Args:
+        file ([str]): [The path to the file to calculate from]
+
+    Returns:
+        [str]: [The calculated md5 value]
+    """
     hash_md5 = hashlib.md5()
     with open(file, "rb") as f:
         for chunk in iter(lambda: f.read(4096), b""):
