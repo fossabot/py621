@@ -341,7 +341,7 @@ class apiPost:
             "upload[source]": source,
             "upload[description]": description,
             "upload[parent_id]": parentID,
-            "upload[referer_url]": referrerURL,
+            "upload[referrer_url]": referrerURL,
             "upload[md5_confirmation]": md5,
             "upload[as_pending]": asPending
         }
