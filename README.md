@@ -1,6 +1,7 @@
 # py621
 
 [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://choosealicense.com/licenses/gpl-3.0/) [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/py621) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/BugadinhoGamers/py621) ![PyPI](https://img.shields.io/pypi/v/py621) ![PyPI - Downloads](https://img.shields.io/pypi/dm/py621) ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/BugadinhoGamers/py621) ![GitHub contributors](https://img.shields.io/github/contributors/BugadinhoGamers/py621) ![GitHub forks](https://img.shields.io/github/forks/BugadinhoGamers/py621?label=Forks) ![GitHub last commit](https://img.shields.io/github/last-commit/BugadinhoGamers/py621)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FHunter-The-Furry%2Fpy621.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FHunter-The-Furry%2Fpy621?ref=badge_shield)
 
 A simple, easy to use, e621 API interface for Python!
 
@@ -17,3 +18,7 @@ A simple, easy to use, e621 API interface for Python!
 ## Contributors
 
 - [Hunter The Protogen](https://github.com/Hunter-The-Furry)
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FHunter-The-Furry%2Fpy621.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FHunter-The-Furry%2Fpy621?ref=badge_large)
